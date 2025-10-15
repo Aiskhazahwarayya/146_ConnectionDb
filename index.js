@@ -27,6 +27,19 @@ app.get('/', (req, res) => {
 });
 
 
+app.get('/biodata', (req, res) => {
+    const sql = "SELECT * FROM biodata";
+    db.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error fetching data:', err);
+            return res.status(500).json({ message: 'Gagal mengambil data dari database', error: err });
+        }
+        res.status(200).json(results);
+    });
+});
+
+
+
 app.post('/biodata', (req, res) => {
 
     const { nama, alamat, agama } = req.body;
