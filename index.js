@@ -26,3 +26,25 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+app.post('/biodata', (req, res) => {
+
+    const { nama, alamat, agama } = req.body;
+
+    if (!nama || !alamat || !agama) {
+        return res.status(400).json({ message: 'Nama, alamat, dan agama harus diisi' });
+    }
+    
+    const sql = "INSERT INTO biodata (nama, alamat, agama) VALUES (?, ?, ?)";
+    const values = [nama, alamat, agama];
+
+    db.query(sql, values, (err, result) => {
+        if (err) {
+            console.error('Error inserting data:', err);
+            return res.status(500).json({ message: 'Gagal menyimpan data ke database', error: err });
+        }
+        res.status(201).json({ 
+            message: 'Data biodata berhasil ditambahkan', 
+            data: { id: result.insertId, ...req.body } 
+        });
+    });
+});
