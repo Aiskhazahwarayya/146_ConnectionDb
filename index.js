@@ -26,6 +26,7 @@ app.get('/', (req, res) => {
     res.send('Hello World!');
 });
 
+
 app.post('/biodata', (req, res) => {
 
     const { nama, alamat, agama } = req.body;
